@@ -8,7 +8,10 @@
 <body>
 
 <header>
+<div class="logo">
     <h1>RevizUp</h1>
+    <span >Revisez intelligemment.</span>
+</div>
     <nav>
         <a href="index.php">Accueil</a>
         <a href="contact.php">Matières</a>
@@ -23,11 +26,9 @@
         <p>
             Organisez vos révisions,  créer vos cartes de révision, suivez vos progrès et étudiez avec discipline.
         </p>
-        <button>Commencer</button>
+        <a href="inscriptions.php">
+            <button>S'inscrire</button></a>
     </div>
 </section>
-<footer>
-    <p>&copy; 2024 RevizUp. Tous droits réservés.</p>
-</footer>
 </body>
 </html>
