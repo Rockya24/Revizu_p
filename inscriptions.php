@@ -29,12 +29,16 @@ if(isset($_POST['inscrire'])){
     <nav>
         <a href="index.php">Accueil</a>
         <a href="login.php">Connexion</a>
-        <a href="inscription.php">Inscription</a>
+        <a href="inscriptions.php">Inscription</a>
     </nav>
 </header>
 
 <section>
     <h2>Créer un compte</h2>
+<?php  if(isset($message)){
+    echo "<p class='erreur'>$message</p>";
+    }?>
+
 
     <form method="POST" action="">
         <input type="text" name="nom" placeholder="Votre nom" required>
