@@ -1,3 +1,20 @@
+<?php
+include("config.php");
+
+if(isset($_POST['inscrire'])){
+    $nom = $_POST['nom'];
+    $email = $_POST['email'];
+    $mot_de_passe = $_POST['mot_de_passe'];
+
+    $sql = "INSERT INTO utilisateurs(nom, email, mot_de_passe)
+            VALUES('$nom', '$email', '$mot_de_passe')";
+
+    mysqli_query($conn, $sql);
+
+    header("Location: login.php");
+    exit();
+}
+?> 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -24,7 +41,7 @@
         <input type="email" name="email" placeholder="Votre email" required>
         <input type="password" name="mot_de_passe" placeholder="Mot de passe" required>
 
-        <button type="submit">S'inscrire</button>
+        <button type="submit" name="inscrire">S'inscrire</button>
     </form>
 </section>
 
