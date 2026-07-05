@@ -21,7 +21,7 @@ if(isset($_POST['inscrire'])){
     <meta charset="UTF-8">
     <title>Inscription - RevizUp</title>
     <link rel="stylesheet" href="forme.css">
-</head>scrip
+</head>
 <body>
 
 <header>

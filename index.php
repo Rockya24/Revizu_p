@@ -14,9 +14,7 @@
 </div>
     <nav>
         <a href="index.php">Accueil</a>
-        <a href="contact.php">Matières</a>
-        <a href="index.php">Cartes</a>
-        <a href="contact.php">Connexion</a>
+        <a href="login.php">Connexion</a>
 
     </nav>
 </header>

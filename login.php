@@ -12,11 +12,19 @@ if(isset($_POST['connecter'])){
     $resultat = mysqli_query($conn, $sql);
 
     if(mysqli_num_rows($resultat) > 0){
-        header("Location: dashboard.php");
-        exit();
-    }else{
-        $erreur = "Email ou mot de passe incorrect";
-    }
+
+    $utilisateur = mysqli_fetch_assoc($resultat);
+
+    session_start();
+    $_SESSION['nom'] = $utilisateur['nom'];
+    $_SESSION['email'] = $utilisateur['email'];
+
+    header("Location: dashboard.php");
+    exit();
+
+}else{
+    $erreur = "Email ou mot de passe incorrect";
+}
 }
 ?>
 
