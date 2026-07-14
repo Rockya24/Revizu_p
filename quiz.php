@@ -1,13 +1,25 @@
 <?php
-session_start();
-include("config.php");
 
-if (!isset($_SESSION["utilisateur_id"])) {
+session_start();
+require_once "config.php";
+
+/*
+ Vérification de la connexion
+*/
+
+if (
+    !isset($_SESSION["utilisateur_id"]) ||
+    (int) $_SESSION["utilisateur_id"] <= 0
+) {
+    session_unset();
+    session_destroy();
+
     header("Location: login.php");
-    exit();
+    exit;
 }
 
 $utilisateurId = (int) $_SESSION["utilisateur_id"];
+
 
 $listeQuiz = [
 
@@ -216,6 +228,7 @@ $listeQuiz = [
     ]
 ];
 
+
 $matiere = $_GET["matiere"] ?? "math";
 
 if (!isset($listeQuiz[$matiere])) {
@@ -227,18 +240,28 @@ $questions = $listeQuiz[$matiere]["questions"];
 
 $totalQuestions = count($questions);
 
+
+$noteMinimale = (int) ceil($totalQuestions * 2 / 3);
+
 $score = null;
 $reussi = false;
 $pourcentage = 0;
+$erreurBase = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $score = 0;
 
+    $reponsesUtilisateur =
+        isset($_POST["reponses"]) &&
+        is_array($_POST["reponses"])
+            ? $_POST["reponses"]
+            : [];
+
     foreach ($questions as $numero => $question) {
 
         $reponseUtilisateur =
-            $_POST["reponses"][$numero] ?? "";
+            $reponsesUtilisateur[$numero] ?? "";
 
         if (
             $reponseUtilisateur ===
@@ -248,13 +271,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
-    $reussi = $score >= 4;
+    $reussi = $score >= $noteMinimale;
 
-    $pourcentage = round(
+    $pourcentage = (int) round(
         ($score / $totalQuestions) * 100
     );
 
     $reussiNombre = $reussi ? 1 : 0;
+
 
     $sql = "
         INSERT INTO resultats_quiz
@@ -269,15 +293,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         ON DUPLICATE KEY UPDATE
 
-        score = GREATEST(score, VALUES(score)),
-        total_questions = VALUES(total_questions),
-        reussi = GREATEST(reussi, VALUES(reussi)),
-        date_resultat = CURRENT_TIMESTAMP
+            score = GREATEST(
+                score,
+                VALUES(score)
+            ),
+
+            total_questions =
+                VALUES(total_questions),
+
+            reussi = GREATEST(
+                reussi,
+                VALUES(reussi)
+            )
     ";
 
-    $requete = mysqli_prepare($conn, $sql);
+    try {
 
-    if ($requete) {
+        $requete = mysqli_prepare($conn, $sql);
+
+        if ($requete === false) {
+            throw new Exception(
+                mysqli_error($conn)
+            );
+        }
 
         mysqli_stmt_bind_param(
             $requete,
@@ -289,10 +327,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $reussiNombre
         );
 
-        mysqli_stmt_execute($requete);
+        if (!mysqli_stmt_execute($requete)) {
+            throw new Exception(
+                mysqli_stmt_error($requete)
+            );
+        }
+
         mysqli_stmt_close($requete);
+
+    } catch (Throwable $erreur) {
+
+        $erreurBase =
+            "Le quiz a été corrigé, mais le résultat " .
+            "n’a pas pu être enregistré : " .
+            $erreur->getMessage();
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -308,10 +359,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     >
 
     <title>
-        Quiz <?php echo htmlspecialchars($titre); ?> - RevizUp
+        Quiz <?php
+        echo htmlspecialchars(
+            $titre,
+            ENT_QUOTES,
+            "UTF-8"
+        );
+        ?> - RevizUp
     </title>
 
-    <link rel="stylesheet" href="dashboard.css">
+    <link
+        rel="stylesheet"
+        href="dashboard.css"
+    >
 
 </head>
 
@@ -319,6 +379,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <button
     class="burger"
+    type="button"
     onclick="ouvrirMenu()"
 >
     ☰
@@ -348,15 +409,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <h1>
             Quiz :
-            <?php echo htmlspecialchars($titre); ?>
+            <?php
+            echo htmlspecialchars(
+                $titre,
+                ENT_QUOTES,
+                "UTF-8"
+            );
+            ?>
         </h1>
 
         <?php if ($score === null) { ?>
 
             <p>
-                Répondez aux six questions.
-                Il faut obtenir au moins quatre bonnes réponses
-                pour réussir.
+                Répondez aux
+                <?php echo $totalQuestions; ?>
+                questions.
+
+                Il faut obtenir au moins
+                <?php echo $noteMinimale; ?>
+                bonnes réponses pour réussir.
             </p>
 
         <?php } else { ?>
@@ -368,6 +439,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <?php } ?>
 
     </div>
+
+    <?php if ($erreurBase !== "") { ?>
+
+        <div class="quiz-result quiz-fail">
+
+            <p>
+                <?php
+                echo htmlspecialchars(
+                    $erreurBase,
+                    ENT_QUOTES,
+                    "UTF-8"
+                );
+                ?>
+            </p>
+
+        </div>
+
+    <?php } ?>
 
     <?php if ($score === null) { ?>
 
@@ -400,7 +489,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                         <?php
                         echo htmlspecialchars(
-                            $question["question"]
+                            $question["question"],
+                            ENT_QUOTES,
+                            "UTF-8"
                         );
                         ?>
 
@@ -422,14 +513,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                         echo $numero;
                                     ?>]"
                                     value="<?php
-                                        echo htmlspecialchars($option);
+                                        echo htmlspecialchars(
+                                            $option,
+                                            ENT_QUOTES,
+                                            "UTF-8"
+                                        );
                                     ?>"
                                     required
                                 >
 
                                 <span>
                                     <?php
-                                    echo htmlspecialchars($option);
+                                    echo htmlspecialchars(
+                                        $option,
+                                        ENT_QUOTES,
+                                        "UTF-8"
+                                    );
                                     ?>
                                 </span>
 
@@ -454,13 +553,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <?php } else { ?>
 
-        <div
-            class="quiz-result <?php
-                echo $reussi
-                    ? "quiz-success"
-                    : "quiz-fail";
-            ?>"
-        >
+        <div class="quiz-result <?php
+            echo $reussi
+                ? "quiz-success"
+                : "quiz-fail";
+        ?>">
 
             <div class="quiz-result-icon">
 
@@ -483,7 +580,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     <strong>
                         <?php
-                        echo htmlspecialchars($titre);
+                        echo htmlspecialchars(
+                            $titre,
+                            ENT_QUOTES,
+                            "UTF-8"
+                        );
                         ?>
                     </strong>.
                 </p>
@@ -495,7 +596,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 </h2>
 
                 <p>
-                    Désolé, vous n’avez pas obtenu
+                    Vous n’avez pas encore obtenu
                     la note minimale.
                 </p>
 
@@ -540,8 +641,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <?php } else { ?>
 
                 <p>
-                    Il faut obtenir au moins quatre bonnes
-                    réponses sur six. Vous pouvez recommencer.
+                    Il faut obtenir au moins
+                    <?php echo $noteMinimale; ?>
+                    bonnes réponses sur
+                    <?php echo $totalQuestions; ?>.
                 </p>
 
                 <div class="quiz-actions">
@@ -552,6 +655,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         ?>"
                     >
                         Recommencer le quiz
+                    </a>
+
+                    <a
+                        href="cours.php?matiere=<?php
+                            echo urlencode($matiere);
+                        ?>"
+                        class="quiz-secondary"
+                    >
+                        Relire le cours
                     </a>
 
                     <a
@@ -572,12 +684,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </main>
 
 <script>
+
 function ouvrirMenu() {
     document
         .querySelector(".sidebar")
         .classList
         .toggle("active");
 }
+
 </script>
 
 </body>

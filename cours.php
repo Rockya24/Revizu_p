@@ -13,61 +13,215 @@ $cours = [
     "math" => [
         "titre" => "Mathématiques",
 
-        "texte" => "Les mathématiques développent le raisonnement logique. Elles permettent de résoudre des problèmes à partir des nombres, des opérations et des règles.
+        "texte" => "Les mathématiques permettent de résoudre des problèmes à partir des nombres, des opérations et des formules.
 
-Les opérations de base sont l’addition, la soustraction, la multiplication et la division.
+1. Le pourcentage
 
-L’addition sert à réunir des quantités : 5 + 3 = 8.
+Un pourcentage représente une partie sur 100. Pour calculer 15 % de 200, on effectue :
 
-La multiplication est une addition répétée : 4 × 2 signifie 4 ajouté deux fois, donc 8.
+15 × 200 ÷ 100 = 30.
 
-Pour réussir un exercice, il faut lire l’énoncé, identifier les données, choisir la bonne opération et vérifier le résultat."
+Ainsi, 15 % de 200 représente 30.
+
+2. Les équations
+
+Une équation contient une valeur inconnue, souvent représentée par la lettre x.
+
+Exemple : 3x + 5 = 20.
+
+On retire d’abord 5 aux deux membres : 3x = 15.
+
+Ensuite, on divise par 3 : x = 5.
+
+3. Les fractions
+
+Pour additionner deux fractions qui ont le même dénominateur, on additionne leurs numérateurs.
+
+Exemple : 3/4 + 1/4 = 4/4 = 1.
+
+4. Le périmètre d’un rectangle
+
+Le périmètre représente la longueur totale du contour d’une figure.
+
+La formule du périmètre d’un rectangle est :
+
+P = 2 × (longueur + largeur).
+
+Pour un rectangle de 8 cm de longueur et 5 cm de largeur :
+
+P = 2 × (8 + 5) = 26 cm.
+
+5. Les puissances
+
+Une puissance indique qu’un nombre est multiplié plusieurs fois par lui-même.
+
+Exemple : 2 à la puissance 4 signifie :
+
+2 × 2 × 2 × 2 = 16.
+
+6. La moyenne
+
+Pour calculer une moyenne, on additionne toutes les valeurs puis on divise la somme par le nombre de valeurs.
+
+Exemple : la moyenne de 12, 14 et 16 est :
+
+(12 + 14 + 16) ÷ 3 = 42 ÷ 3 = 14."
     ],
 
     "francais" => [
         "titre" => "Français",
 
-        "texte" => "Le français permet de bien lire, écrire et communiquer.
+        "texte" => "Le français permet de lire, d’écrire et de communiquer correctement.
 
-Une phrase commence par une majuscule et se termine par un point. Elle contient souvent un sujet, un verbe et un complément.
+1. Le sujet dans une phrase
 
-Exemple : L’élève révise sa leçon.
+Le sujet indique la personne, l’animal ou la chose qui accomplit l’action exprimée par le verbe.
 
-En grammaire, le sujet indique de qui ou de quoi on parle. Le verbe exprime l’action.
+Dans la phrase « Les élèves révisent leur leçon », le sujet est « Les élèves » et le verbe est « révisent ».
 
-En orthographe, il faut respecter les accords, le singulier, le pluriel et la bonne écriture des mots.
+2. Le passé composé
 
-Par exemple, un cheval devient des chevaux."
+Le passé composé est formé avec un auxiliaire, avoir ou être, suivi du participe passé du verbe.
+
+Exemple :
+
+Nous avons terminé notre travail.
+
+Le verbe « terminer » devient « terminé » au participe passé.
+
+3. L’accord du participe passé avec être
+
+Lorsque le passé composé est formé avec l’auxiliaire être, le participe passé s’accorde généralement avec le sujet.
+
+Exemples :
+
+Il est arrivé.
+
+Elle est arrivée.
+
+Ils sont arrivés.
+
+Elles sont arrivées.
+
+4. La différence entre « ou » et « où »
+
+« Ou » sans accent exprime un choix.
+
+Exemple : Veux-tu du thé ou du café ?
+
+« Où » avec un accent indique généralement un lieu.
+
+Exemple : Où vas-tu après les cours ?
+
+5. L’adverbe
+
+L’adverbe précise le sens d’un verbe, d’un adjectif ou d’un autre adverbe.
+
+De nombreux adverbes se terminent par « ment ».
+
+Exemple : L’élève répond rapidement.
+
+Dans cette phrase, « rapidement » est un adverbe.
+
+6. L’accord entre le sujet et le verbe
+
+Le verbe doit s’accorder avec son sujet.
+
+Exemple au singulier :
+
+L’enfant joue dehors.
+
+Exemple au pluriel :
+
+Les enfants jouent dehors."
     ],
 
     "culture" => [
         "titre" => "Culture générale",
 
-        "texte" => "La culture générale regroupe les connaissances utiles sur le monde, la société, l’histoire, la géographie et la vie quotidienne.
+        "texte" => "La culture générale rassemble les connaissances importantes sur l’histoire, la géographie, les institutions et la littérature.
 
-Elle aide une personne à comprendre son environnement et à développer son esprit critique.
+1. L’indépendance de la RDC
 
-Kinshasa est la capitale de la République démocratique du Congo.
+La République démocratique du Congo a obtenu son indépendance le 30 juin 1960.
 
-La RDC est située en Afrique centrale et possède de nombreuses richesses naturelles.
+Avant cette date, le pays était une colonie belge.
 
-La culture générale permet aussi de mieux participer aux discussions et de comprendre les événements de la société."
+2. La capitale du Nigeria
+
+Le Nigeria est un pays situé en Afrique de l’Ouest.
+
+Sa capitale est Abuja. Lagos est cependant la ville la plus peuplée et l’un des principaux centres économiques du pays.
+
+3. Le Nil
+
+Le Nil est un grand fleuve africain qui traverse notamment l’Égypte.
+
+Il a joué un rôle très important dans le développement de la civilisation égyptienne.
+
+4. L’Organisation des Nations unies
+
+Le sigle ONU signifie Organisation des Nations unies.
+
+Cette organisation a été créée pour favoriser la paix, la coopération entre les États et la défense des droits humains.
+
+5. Le plus grand continent
+
+L’Asie est le plus grand continent du monde par sa superficie et sa population.
+
+Elle comprend notamment la Chine, l’Inde, le Japon et plusieurs autres pays.
+
+6. Victor Hugo
+
+Victor Hugo est un écrivain français.
+
+Il est notamment l’auteur du roman « Les Misérables », une œuvre qui traite de la pauvreté, de la justice et de la société."
     ],
 
     "sciences" => [
         "titre" => "Sciences et vie",
 
-        "texte" => "Les sciences permettent de comprendre le corps humain, la nature et l’environnement.
+        "texte" => "Les sciences permettent de comprendre le corps humain, les êtres vivants, la matière et l’univers.
 
-Le corps humain possède plusieurs organes essentiels.
+1. La photosynthèse
 
-Les poumons assurent la respiration en permettant l’entrée de l’oxygène.
+La photosynthèse est le processus par lequel les plantes fabriquent leur nourriture grâce à la lumière.
 
-Le cœur pompe le sang et l’envoie dans toutes les parties du corps.
+Pendant ce processus, elles absorbent principalement le dioxyde de carbone et rejettent de l’oxygène.
 
-L’eau est indispensable à la vie et bout normalement à 100 °C.
+2. Les globules rouges
 
-Les sciences nous aident à mieux comprendre la santé, l’hygiène et les phénomènes naturels."
+Le sang contient notamment des globules rouges, des globules blancs et des plaquettes.
+
+Les globules rouges transportent principalement l’oxygène des poumons vers les différentes parties du corps.
+
+3. Le pH de l’eau pure
+
+Le pH permet de mesurer si une substance est acide, neutre ou basique.
+
+Une valeur inférieure à 7 indique généralement une substance acide.
+
+Une valeur de 7 est neutre.
+
+L’eau pure possède donc un pH approximatif de 7.
+
+4. La température d’ébullition de l’eau
+
+Au niveau de la mer, l’eau bout normalement à 100 °C.
+
+À cette température, l’eau liquide se transforme progressivement en vapeur.
+
+5. La gravité
+
+La gravité est une force d’attraction entre les corps.
+
+Elle maintient les personnes et les objets sur la Terre. Elle permet également aux planètes de rester en orbite autour du Soleil.
+
+6. L’ADN
+
+L’ADN est une molécule qui contient l’information héréditaire des êtres vivants.
+
+Cette information participe à la transmission de certaines caractéristiques des parents aux enfants."
     ]
 ];
 

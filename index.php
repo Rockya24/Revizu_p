@@ -18,7 +18,7 @@
 
     </nav>
 </header>
-<section classe="hero">
+<section class="hero">
     <div class="hero-text">
         <h2>Bienvenue sur RevizUp</h2>
         <p>
