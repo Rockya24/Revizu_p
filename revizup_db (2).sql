@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Jul 05, 2026 at 11:03 PM
+-- Generation Time: Jul 14, 2026 at 11:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,27 +24,26 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `matieres`
+-- Table structure for table `resultats_quiz`
 --
 
-CREATE TABLE `matieres` (
+CREATE TABLE `resultats_quiz` (
   `id` int(11) NOT NULL,
-  `nom_matiere` varchar(100) NOT NULL,
-  `utilisateur_id` int(11) DEFAULT NULL
+  `utilisateur_id` int(11) NOT NULL,
+  `matiere` varchar(50) NOT NULL,
+  `score` int(11) NOT NULL DEFAULT 0,
+  `total_questions` int(11) NOT NULL DEFAULT 5,
+  `reussi` tinyint(1) NOT NULL DEFAULT 0,
+  `date_resultat` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `revisions`
+-- Dumping data for table `resultats_quiz`
 --
 
-CREATE TABLE `revisions` (
-  `id` int(11) NOT NULL,
-  `matiere_id` int(11) DEFAULT NULL,
-  `date_revision` date NOT NULL,
-  `statut` varchar(50) DEFAULT 'A faire'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `resultats_quiz` (`id`, `utilisateur_id`, `matiere`, `score`, `total_questions`, `reussi`, `date_resultat`) VALUES
+(1, 1, 'math', 1, 6, 0, '2026-07-14 10:05:23'),
+(3, 4, 'francais', 5, 6, 1, '2026-07-14 10:09:40');
 
 -- --------------------------------------------------------
 
@@ -74,18 +73,11 @@ INSERT INTO `utilisateurs` (`id`, `nom`, `email`, `mot_de_passe`) VALUES
 --
 
 --
--- Indexes for table `matieres`
+-- Indexes for table `resultats_quiz`
 --
-ALTER TABLE `matieres`
+ALTER TABLE `resultats_quiz`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `utilisateur_id` (`utilisateur_id`);
-
---
--- Indexes for table `revisions`
---
-ALTER TABLE `revisions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `matiere_id` (`matiere_id`);
+  ADD UNIQUE KEY `utilisateur_matiere` (`utilisateur_id`,`matiere`);
 
 --
 -- Indexes for table `utilisateurs`
@@ -99,16 +91,10 @@ ALTER TABLE `utilisateurs`
 --
 
 --
--- AUTO_INCREMENT for table `matieres`
+-- AUTO_INCREMENT for table `resultats_quiz`
 --
-ALTER TABLE `matieres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `revisions`
---
-ALTER TABLE `revisions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `resultats_quiz`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `utilisateurs`
@@ -121,16 +107,10 @@ ALTER TABLE `utilisateurs`
 --
 
 --
--- Constraints for table `matieres`
+-- Constraints for table `resultats_quiz`
 --
-ALTER TABLE `matieres`
-  ADD CONSTRAINT `matieres_ibfk_1` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`);
-
---
--- Constraints for table `revisions`
---
-ALTER TABLE `revisions`
-  ADD CONSTRAINT `revisions_ibfk_1` FOREIGN KEY (`matiere_id`) REFERENCES `matieres` (`id`);
+ALTER TABLE `resultats_quiz`
+  ADD CONSTRAINT `fk_resultat_utilisateur` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
