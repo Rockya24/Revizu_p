@@ -5,8 +5,8 @@ if(isset($_POST['connecter'])){
     $email = $_POST['email'];
     $mot_de_passe = $_POST['mot_de_passe'];
 
-    $sql = "SELECT * FROM utilisateurs 
-            WHERE email='$email' 
+    $sql = "SELECT * FROM utilisateurs
+            WHERE email='$email'
             AND mot_de_passe='$mot_de_passe'";
 
     $resultat = mysqli_query($conn, $sql);
@@ -16,6 +16,7 @@ if(isset($_POST['connecter'])){
     $utilisateur = mysqli_fetch_assoc($resultat);
 
     session_start();
+    $_SESSION['utilisateur_id'] = (int) $utilisateur['id'];
     $_SESSION['nom'] = $utilisateur['nom'];
     $_SESSION['email'] = $utilisateur['email'];
 

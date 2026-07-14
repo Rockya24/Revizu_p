@@ -20,6 +20,8 @@ RevizUp est un projet de fin d'année en Licence 2. C'est une application web de
 - `cartes.php` : gestion des cartes de révision
 - `forme.css` : styles CSS du site
 - `images/` : dossier pour les images et ressources multimédias
+- `cours` : dossier pour les images et ressources multimédias
+- `quiz` : dossier pour les images et ressources multimédias
 
 ## Installation
 

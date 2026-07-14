@@ -22,7 +22,6 @@ if(isset($_SESSION['nom'])){
     <h2>RevizUp</h2>
     <a href="dashboard.php">Dashboard</a>
     <a href="cartes.php">Matières</a>
-    <a href="revisions.php">Révisions</a>
     <a href="logout.php">Déconnexion</a>
 </aside>
 
@@ -37,13 +36,6 @@ if(isset($_SESSION['nom'])){
             <strong>3</strong>
             <p>Matières enregistrées</p>
         </div>
-
-        <div class="stat">
-            <h3>📝 Révisions</h3>
-            <strong>5</strong>
-            <p>Révisions planifiées</p>
-        </div>
-
         <div class="stat">
             <h3>📈 Progression</h3>
             <strong>40%</strong>
@@ -58,11 +50,6 @@ if(isset($_SESSION['nom'])){
             <a href="cartes.php">Gérer les matières</a>
         </div>
 
-        <div class="box">
-            <h3>Révisions</h3>
-            <p>Planifiez vos séances de révision.</p>
-            <a href="revisions.php">Gérer les révisions</a>
-        </div>
     </div>
 </main>
 
