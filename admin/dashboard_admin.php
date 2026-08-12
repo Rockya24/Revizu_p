@@ -64,7 +64,21 @@ $listeUtilisateurs = mysqli_query(
         <?php echo htmlspecialchars($_SESSION["admin_nom"]); ?>
     </p>
 
+<div class="menu-admin">
 
+    <a href="dashboard_admin.php">
+        Accueil
+    </a>
+
+    <a href="resultats_admin.php">
+        Voir les résultats des quiz
+    </a>
+
+    <a href="logout_admin.php">
+        Déconnexion
+    </a>
+
+</div>
 
     <div class="statistiques">
 
@@ -138,7 +152,9 @@ $listeUtilisateurs = mysqli_query(
 >
                         Supprimer
 </a>
-
+<a href="resultats_admin.php">
+    Voir les résultats des quiz
+</a>
                     </td>
 
                 </tr>

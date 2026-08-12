@@ -22,6 +22,24 @@ body {
 .admin-header h1 {
     font-size: 24px;
 }
+.menu-admin {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.menu-admin a {
+    text-decoration: none;
+    background: #6842d9;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.menu-admin a:hover {
+    background: #5633c4;
+}
 
 .deconnexion {
     background: white;
