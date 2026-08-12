@@ -1,6 +1,6 @@
 <?php
-$conn= mysqli_connect("127.0.0.1","root","","revizup_db",3307);
+$conn= mysqli_connect("127.0.0.1","root","","revizup_db",3306);
 if(!$conn){
-    die("Errerur de connexion: "  . mysqli_connect_error());
+    die("Error de connexion: "  . mysqli_connect_error());
 }
 ?>
