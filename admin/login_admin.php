@@ -120,7 +120,7 @@ if (isset($_POST["connecter"])) {
 
     <link
         rel="stylesheet"
-        href="forme.css"
+        href="css/admin.css"
     >
 
 </head>
@@ -128,14 +128,16 @@ if (isset($_POST["connecter"])) {
 <body>
 
 
-<header>
+<header class="admin-header">
 
     <h1>RevizUp</h1>
 
 </header>
 
 
-<section>
+<main class="login-admin">
+
+<section class="login-card">
 
     <h2>Connexion</h2>
 
@@ -197,6 +199,8 @@ if (isset($_POST["connecter"])) {
 
 
 </section>
+
+</main>
 
 
 </body>

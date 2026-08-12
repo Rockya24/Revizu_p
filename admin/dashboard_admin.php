@@ -39,7 +39,7 @@ $listeUtilisateurs = mysqli_query(
 
     <title>Administration - RevizUp</title>
 
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 
 <body>

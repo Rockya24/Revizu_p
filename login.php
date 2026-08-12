@@ -137,14 +137,15 @@ if (isset($_POST["connecter"])) {
     <form method="POST" action="login.php">
 
         <input
-            type="email"
-            name="email"
-            placeholder="Votre email"
+            type="text"
+            name="identifiant"
+            placeholder="Email ou identifiant"
             value="<?php
                 echo htmlspecialchars(
-                    $_POST["email"] ?? ""
+                    $_POST["identifiant"] ?? ""
                 );
             ?>"
+            autocomplete="username"
             required
         >
 
@@ -152,6 +153,7 @@ if (isset($_POST["connecter"])) {
             type="password"
             name="mot_de_passe"
             placeholder="Mot de passe"
+            autocomplete="current-password"
             required
         >
 
