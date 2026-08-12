@@ -3,85 +3,100 @@ session_start();
 include("config.php");
 
 $erreur = "";
-$adminIdentifiant = "admin@email.com";
-$adminMotDePasse = "123";
-
 
 if (isset($_POST["connecter"])) {
 
-    $email = trim($_POST["email"] ?? "");
+    $identifiant = trim($_POST["identifiant"] ?? "");
     $motDePasse = $_POST["mot_de_passe"] ?? "";
 
-    if (
-        $email === $adminIdentifiant &&
-        $motDePasse === $adminMotDePasse
-    ) {
-
-        $_SESSION["admin"] = true;
-        $_SESSION["admin_nom"] = "Administrateur";
-
-        header("Location: admin/dashboard_admin.php");
-        exit;
-    }
-
-    if ($email === "" || $motDePasse === "") {
+    if ($identifiant === "" || $motDePasse === "") {
 
         $erreur = "Veuillez remplir tous les champs.";
 
     } else {
 
-        $sql = "
-            SELECT id, nom, email
-            FROM utilisateurs
-            WHERE email = ?
-            AND mot_de_passe = ?
-            LIMIT 1
-        ";
+        $sqlAdmin =  "SELECT id, nom, identifiant
+                    FROM administrateurs
+                    WHERE identifiant = ?
+                    AND mot_de_passe = ?
+                    LIMIT 1";
 
-        $requete = mysqli_prepare($conn, $sql);
+        $requeteAdmin = mysqli_prepare($conn, $sqlAdmin);
 
-        if ($requete) {
+        mysqli_stmt_bind_param(
+            $requeteAdmin,
+            "ss",
+            $identifiant,
+            $motDePasse
+        );
 
-            mysqli_stmt_bind_param(
-                $requete,
-                "ss",
-                $email,
-                $motDePasse
-            );
+        mysqli_stmt_execute($requeteAdmin);
 
-            mysqli_stmt_execute($requete);
+        $resultatAdmin = mysqli_stmt_get_result($requeteAdmin);
 
-            $resultat = mysqli_stmt_get_result($requete);
-
-            $utilisateur = mysqli_fetch_assoc($resultat);
+        $admin = mysqli_fetch_assoc($resultatAdmin);
 
 
-            if ($utilisateur) {
+        if ($admin) {
 
-                session_regenerate_id(true);
+            session_regenerate_id(true);
 
-                $_SESSION["utilisateur_id"] =
-                    (int) $utilisateur["id"];
+            $_SESSION["admin_id"] = $admin["id"];
+            $_SESSION["admin_nom"] = $admin["nom"];
+            $_SESSION["admin_connecte"] = true;
 
-                $_SESSION["nom"] =
-                    $utilisateur["nom"];
+            header("Location: admin/dashboard_admin.php");
+            exit;
+        }
 
-                $_SESSION["email"] =
-                    $utilisateur["email"];
 
-                header("Location: dashboard.php");
-                exit;
+        $sqlUtilisateur = "SELECT id, nom, email
+                        FROM utilisateurs
+                        WHERE email = ?
+                        AND mot_de_passe = ?
+                        LIMIT 1";
 
-            } else {
+        $requeteUtilisateur = mysqli_prepare(
+            $conn,
+            $sqlUtilisateur
+        );
 
-                $erreur = "Identifiant ou mot de passe incorrect.";
-            }
+        mysqli_stmt_bind_param(
+            $requeteUtilisateur,
+            "ss",
+            $identifiant,
+            $motDePasse
+        );
 
-            mysqli_stmt_close($requete);
+        mysqli_stmt_execute($requeteUtilisateur);
+
+        $resultatUtilisateur =
+            mysqli_stmt_get_result($requeteUtilisateur);
+
+        $utilisateur =
+            mysqli_fetch_assoc($resultatUtilisateur);
+
+
+        if ($utilisateur) {
+
+            session_regenerate_id(true);
+
+            $_SESSION["utilisateur_id"] =
+                $utilisateur["id"];
+
+            $_SESSION["nom"] =
+                $utilisateur["nom"];
+
+            $_SESSION["email"] =
+                $utilisateur["email"];
+
+            header("Location: dashboard.php");
+            exit;
 
         } else {
 
-            $erreur = "Erreur pendant la connexion.";
+            $erreur =
+                "Identifiant ou mot de passe incorrect.";
         }
     }
 }
@@ -89,6 +104,7 @@ if (isset($_POST["connecter"])) {
 
 
 <!DOCTYPE html>
+
 <html lang="fr">
 
 <head>
@@ -109,25 +125,12 @@ if (isset($_POST["connecter"])) {
 
 </head>
 
-
 <body>
 
 
 <header>
 
     <h1>RevizUp</h1>
-
-    <nav>
-
-        <a href="index.php">
-            Accueil
-        </a>
-
-        <a href="inscriptions.php">
-            Inscription
-        </a>
-
-    </nav>
 
 </header>
 
@@ -152,21 +155,25 @@ if (isset($_POST["connecter"])) {
 
     <form
         method="POST"
-        action="login.php"
+        action=""
     >
+
+
+        <label>
+            Email ou identifiant
+        </label>
 
         <input
             type="text"
-            name="email"
+            name="identifiant"
             placeholder="Email ou identifiant"
-            value="<?php
-                echo htmlspecialchars(
-                    $_POST["email"] ?? ""
-                );
-            ?>"
             required
         >
 
+
+        <label>
+            Mot de passe
+        </label>
 
         <input
             type="password"
@@ -185,18 +192,8 @@ if (isset($_POST["connecter"])) {
 
         </button>
 
+
     </form>
-
-
-    <p>
-
-        Vous n’avez pas encore de compte ?
-
-        <a href="inscriptions.php">
-            Créer un compte
-        </a>
-
-    </p>
 
 
 </section>
