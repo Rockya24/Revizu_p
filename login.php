@@ -6,65 +6,85 @@ $erreur = "";
 
 if (isset($_POST["connecter"])) {
 
-    $email = trim($_POST["email"] ?? "");
+    $identifiant = trim($_POST["identifiant"] ?? "");
     $motDePasse = $_POST["mot_de_passe"] ?? "";
 
-    if ($email === "" || $motDePasse === "") {
+    if ($identifiant === "" || $motDePasse === "") {
 
         $erreur = "Veuillez remplir tous les champs.";
 
     } else {
 
-        $sql = "
-            SELECT id, nom, email
-            FROM utilisateurs
-            WHERE email = ?
-            AND mot_de_passe = ?
-            LIMIT 1
-        ";
 
-        $requete = mysqli_prepare($conn, $sql);
+        $sqlAdmin = "SELECT id, nom, identifiant
+                     FROM administrateurs
+                     WHERE identifiant = ?
+                     AND mot_de_passe = ?
+                     LIMIT 1";
 
-        if ($requete) {
+        $requeteAdmin = mysqli_prepare($conn, $sqlAdmin);
 
-            mysqli_stmt_bind_param(
-                $requete,
-                "ss",
-                $email,
-                $motDePasse
-            );
+        mysqli_stmt_bind_param(
+            $requeteAdmin,
+            "ss",
+            $identifiant,
+            $motDePasse
+        );
 
-            mysqli_stmt_execute($requete);
+        mysqli_stmt_execute($requeteAdmin);
 
-            $resultat = mysqli_stmt_get_result($requete);
-            $utilisateur = mysqli_fetch_assoc($resultat);
+        $resultatAdmin = mysqli_stmt_get_result($requeteAdmin);
+        $admin = mysqli_fetch_assoc($resultatAdmin);
 
-            if ($utilisateur) {
+        if ($admin) {
 
-                session_regenerate_id(true);
+            $_SESSION["admin_id"] = $admin["id"];
+            $_SESSION["admin_nom"] = $admin["nom"];
+            $_SESSION["admin_connecte"] = true;
 
-                $_SESSION["utilisateur_id"] =
-                    (int) $utilisateur["id"];
+            header("Location: admin/dashboard_admin.php");
+            exit;
+        }
 
-                $_SESSION["nom"] =
-                    $utilisateur["nom"];
 
-                $_SESSION["email"] =
-                    $utilisateur["email"];
+        $sqlUtilisateur = "SELECT id, nom, email
+                           FROM utilisateurs
+                           WHERE email = ?
+                           AND mot_de_passe = ?
+                           LIMIT 1";
 
-                header("Location: dashboard.php");
-                exit;
+        $requeteUtilisateur = mysqli_prepare(
+            $conn,
+            $sqlUtilisateur
+        );
 
-            } else {
+        mysqli_stmt_bind_param(
+            $requeteUtilisateur,
+            "ss",
+            $identifiant,
+            $motDePasse
+        );
 
-                $erreur = "Email ou mot de passe incorrect.";
-            }
+        mysqli_stmt_execute($requeteUtilisateur);
 
-            mysqli_stmt_close($requete);
+        $resultatUtilisateur =
+            mysqli_stmt_get_result($requeteUtilisateur);
+
+        $utilisateur =
+            mysqli_fetch_assoc($resultatUtilisateur);
+
+        if ($utilisateur) {
+
+            $_SESSION["utilisateur_id"] = $utilisateur["id"];
+            $_SESSION["nom"] = $utilisateur["nom"];
+            $_SESSION["email"] = $utilisateur["email"];
+
+            header("Location: dashboard.php");
+            exit;
 
         } else {
 
-            $erreur = "Erreur pendant la connexion.";
+            $erreur = "Identifiant ou mot de passe incorrect.";
         }
     }
 }
